@@ -10,19 +10,11 @@
 #include <Wire.h>
 #include "driver/i2s.h"
 #include "esp_vad.h"
+#include "select_pins.h"
 
-
-
-
-//ESP32  Camera V1.6.2 IIS Pin
-#define IIS_WS_PIN                  (32)
-#define IIS_DIN_PIN                 (33)
-#define IIS_SCLK_PIN                (26)
-
-// ESP32S3 T-SIM IIS Pin
-// #define IIS_WS_PIN                  (42)
-// #define IIS_SCLK_PIN                (41)
-// #define IIS_DIN_PIN                 (2)
+#if !defined(IIS_WS) || !defined(IIS_DOUT) || !defined(IIS_SCK)
+#error "Board not support."
+#endif
 
 
 #define VAD_SAMPLE_RATE_HZ              16000
@@ -65,10 +57,10 @@ void setup()
 
     i2s_pin_config_t pin_config = {
         .mck_io_num = I2S_PIN_NO_CHANGE,
-        .bck_io_num = IIS_SCLK_PIN,
-        .ws_io_num  = IIS_WS_PIN,
+        .bck_io_num = IIS_SCK,
+        .ws_io_num  = IIS_WS,
         .data_out_num = I2S_PIN_NO_CHANGE,
-        .data_in_num = IIS_DIN_PIN
+        .data_in_num = IIS_DOUT
     };
 
     i2s_driver_install(I2S_CH, &i2s_config, 0, NULL);
