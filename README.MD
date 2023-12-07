@@ -1,7 +1,8 @@
 <h1 align = "center">🌟 LILYGO Camera Project🌟</h1>
 
 [![platformio](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/platformio.yml/badge.svg)](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/platformio.yml/build.yml)
-
+[![CameraPlus ci](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/camera-plus.yml/badge.svg)](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/camera-plus.yml)
+[![t_sim_cam_factory ci](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/t-sim-factory.yml/badge.svg)](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/actions/workflows/t-sim-factory.yml)
 
 [![issues](https://img.shields.io/github/issues/Xinyuan-LilyGO/LilyGo-Camera-Series)](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/issues)
 [![frok](https://img.shields.io/github/forks/Xinyuan-LilyGO/LilyGo-Camera-Series)](https://github.com/Xinyuan-LilyGO/LilyGo-Camera-Series/graphs/contributors)
@@ -41,18 +42,6 @@
 [7]: docs/T_CarmerV16.md
 [8]: docs/T_CarmerV05.md
 
-## 📷 Camera Spec
-
-![ov2640 Spec](./docs/_static/readme/ov2640_spec.png)
-
-## 📘 Other
-
-- [YouTube](https://www.youtube.com/watch?v=CibcsmurTbo)
-
-## 🖼 Product Picture
-
-![Camera Series](./docs/_static/readme/camera_series.jpg)
-
 
 # Quick start ⚡
 
@@ -71,4 +60,18 @@
 11. Click (→) to upload firmware
 12. Click (plug symbol) to monitor serial output
 13. If it cannot be written, or the USB device keeps flashing, please check the **FAQ** below
+
+
+
+## 📷 Camera Spec
+
+![ov2640 Spec](./docs/_static/readme/ov2640_spec.png)
+
+## 📘 Other
+
+- [YouTube](https://www.youtube.com/watch?v=CibcsmurTbo)
+
+## 🖼 Product Picture
+
+![Camera Series](./docs/_static/readme/camera_series.jpg)
 
