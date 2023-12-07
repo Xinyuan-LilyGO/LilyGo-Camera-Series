@@ -31,7 +31,6 @@ jobs:
             examples/netdisk,
             examples/pic2cloud,
             examples/sketch,
-            examples/t_sim_cam_factory,
           ]
 
     steps:
