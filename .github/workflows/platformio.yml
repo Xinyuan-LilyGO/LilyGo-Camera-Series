@@ -1,0 +1,57 @@
+name: PlatformIO CI
+
+on:
+  pull_request:
+  push:
+    paths:
+      - "examples/**"
+      - "lib/**"
+      - ".github/workflows/platformio.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        envs:
+          [
+            t-camera-journal,
+            t-camera-mini,
+            t-camera-plus,
+            t-camera-v05,
+            t-camera-v1_6,
+            t-camera-v1_6_2,
+            t-camera-v1_7,
+            t-camera-sim,
+          ]
+        examples:
+          [
+            examples/gdrive,
+            examples/netdisk,
+            examples/pic2cloud,
+            examples/sketch,
+            examples/t_sim_cam_factory,
+          ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.platformio/.cache
+          key: ${{ runner.os }}-pio
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - name: Install PlatformIO Core
+        run: pip install --upgrade platformio
+
+      - name: Run PlatformIO
+        run: |
+          if [ -f "${{ matrix.examples }}/.skip."${{ matrix.envs }} ];then
+            echo "Skip" ${{ matrix.examples }}
+          else
+            export PLATFORMIO_SRC_DIR=${{ matrix.examples }}
+            pio run -e  ${{ matrix.envs }}
+          fi
