@@ -13,9 +13,9 @@
 |      Pin table       |      Product      |       schematic        | Status |
 | :------------------: | :---------------: | :--------------------: | :----: |
 |    [T-SIMCAM][1]     | [aliexpress][1-1] |    [T_SIMCAM][1-2]     |   ✅    |
-| [T-Carmer V1.6.2][2] | [aliexpress][2-1] | [T-Carmer V1.6.2][2-2] |   ✅    |
-|  [T-Carmer V1.7][3]  | [aliexpress][3-1] |  [T-Carmer V1.7][3-2]  |   ✅    |
-|  [T-Camera Mini][4]  | [aliexpress][4-1] |  [T-Camera Mini][4-2]  |   ✅    |
+| [T-Carmer V1.6.2][2] |     Obsolete      | [T-Carmer V1.6.2][2-2] |   ❌    |
+|  [T-Carmer V1.7][3]  |     Obsolete      |  [T-Carmer V1.7][3-2]  |   ❌    |
+|  [T-Camera Mini][4]  |     Obsolete      |  [T-Camera Mini][4-2]  |   ❌    |
 |  [T-Camera Plus][5]  | [aliexpress][5-1] |  [T-Camera Plus][5-2]  |   ✅    |
 |    [T-Joranl][6]     | [aliexpress][6-1] |    [T-Joranl][6-2]     |   ✅    |
 |  [T-Carmer V1.6][7]  |     Obsolete      |        Obsolete        |   ❌    |
