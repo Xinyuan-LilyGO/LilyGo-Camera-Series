@@ -10,6 +10,12 @@ esphome:
     - "Wire"
   includes:
     - AXP2101_component.h
+    
+external_components:
+  - source:
+      type: git
+      url: https://github.com/robertklep/esphome-custom-component
+    components: [ custom, custom_component ]
 
 custom_component:
   - lambda: |-
@@ -26,10 +32,11 @@ esp32:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "XXX"  # Replace with your API encryption key
+    key: "fjtvWEyqu+EdXqBDz2SVXU6+fR9t453PUBcHO+QiRCA="  # Replace with your API encryption key
 
 ota:
-  password: "XXX"  # Replace with your OTA password
+  - platform: esphome
+    password: "your wifi password"  # Replace with your OTA password
 
 wifi:
   ssid: !secret wifi_ssid  # Replace with your Wi-Fi SSID stored in secrets.yaml
@@ -38,7 +45,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case Wi-Fi connection fails
   ap:
     ssid: "Esp32-S3 Fallback Hotspot"
-    password: "XXX"  # Replace with your fallback hotspot password
+    password: "12345678"  # Replace with your fallback hotspot password
 
 binary_sensor:
   - platform: gpio
@@ -55,10 +62,10 @@ time:
   - platform: homeassistant
     id: homeassistant_time
 
-font:
-  - file: "nanum.ttf"
-    id: tnr1
-    size: 17
+# font:
+#   - file: "nanum.ttf"
+#     id: tnr1
+#     size: 17
 
 web_server:
   version: 2
@@ -96,7 +103,7 @@ display:
     model: "SSD1306 128x64"
     address: 0x3C
     rotation: 180
-    lambda: |-
-      // Display current date and time
-      it.strftime(64, 0, id(tnr1), TextAlign::TOP_CENTER, "%m-%d-%Y", id(homeassistant_time).now());
-      it.strftime(64, 44, id(tnr1), TextAlign::BASELINE_CENTER, "%I:%M:%S%p", id(homeassistant_time).now());
+    # lambda: |-
+      # // Display current date and time
+      # it.strftime(64, 0, id(tnr1), TextAlign::TOP_CENTER, "%m-%d-%Y", id(homeassistant_time).now());
+      # it.strftime(64, 44, id(tnr1), TextAlign::BASELINE_CENTER, "%I:%M:%S%p", id(homeassistant_time).now());
