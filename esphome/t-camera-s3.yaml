@@ -75,6 +75,8 @@ i2c:
   scl: GPIO06
   frequency: 200kHz
 
+# If you encounter any problems with the new version of esphome, please check here
+# https://github.com/Xinyuan-LilyGO/T-Display-S3/issues/314
 esp32_camera:
   name: camera-2
   external_clock:
