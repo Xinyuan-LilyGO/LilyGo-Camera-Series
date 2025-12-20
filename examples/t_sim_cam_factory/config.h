@@ -8,8 +8,8 @@
 #define WIFI_AP_PASSWORD "12345678"
 
 // Corresponding version of board screen printing
-#define USE_SIM_CAM_V1_2
-// #define USE_SIM_CAM_V1_3    //Add IR Filter
+// #define USE_SIM_CAM_V1_2
+#define USE_SIM_CAM_V1_3    //Add IR Filter
 
 
 // PIN
