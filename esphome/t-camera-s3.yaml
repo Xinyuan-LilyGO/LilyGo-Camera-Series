@@ -1,33 +1,89 @@
 esphome:
-  name: camera-2
+  name: lilygo-esp32s3-camera-20260202
+  friendly_name: EspHome-Camera
   platformio_options:
-    build_flags: "-DBOARD_HAS_PSRAM -UARDUINO_USB_CDC_ON_BOOT"
+    build_flags: "-DBOARD_HAS_PSRAM"
     upload_speed: 921600
     monitor_speed: 115200
-  friendly_name: "Camera 2"
-  libraries:
-    - XPowersLib=https://github.com/lewisxhe/XPowersLib.git
-    - "Wire"
-  includes:
-    - AXP2101_component.h
-    
-external_components:
-  - source:
-      type: git
-      url: https://github.com/robertklep/esphome-custom-component
-    components: [ custom, custom_component ]
-
-custom_component:
-  - lambda: |-
-      auto axp2101 = new AXP2101Component();
-      return {axp2101};
-    components:
-      - id: axp2101
-
+  on_boot:
+    priority: 600
+    then:
+      - delay: 50ms
+      - lambda: |-
+          esphome::i2c::I2CDevice dev;
+          dev.set_i2c_bus(id(bus_a));
+          dev.set_i2c_address(0x34);
+          dev.write_byte(0x84, 0x67) ? ESP_LOGI("i2c_custom", "Set DC3 Successfully.") : ESP_LOGE("i2c_custom", "Set DC3 Failed!");
+          dev.write_byte(0x92, 0x0d) ? ESP_LOGI("i2c_custom", "Set ALDO1 Successfully.") : ESP_LOGE("i2c_custom", "Set ALDO1 Failed!");
+          dev.write_byte(0x93, 0x17) ? ESP_LOGI("i2c_custom", "Set ALDO2 Successfully.") : ESP_LOGE("i2c_custom", "Set ALDO2 Failed!");
+          dev.write_byte(0x95, 0x19) ? ESP_LOGI("i2c_custom", "Set ALDO4 Successfully.") : ESP_LOGE("i2c_custom", "Set ALDO4 Failed!");
+          dev.write_byte(0x94, 0x1c) ? ESP_LOGI("i2c_custom", "Set ALDO3 Successfully.") : ESP_LOGE("i2c_custom", "Set ALDO3 Failed!");
+          dev.write_byte(0x96, 0x1c) ? ESP_LOGI("i2c_custom", "Set BLDO1 Successfully.") : ESP_LOGE("i2c_custom", "Set BLDO1 Failed!");
+          dev.write_byte(0x80, 0x1d) ? ESP_LOGI("i2c_custom", "Enable DC Successfully.") : ESP_LOGE("i2c_custom", "Enable DC Failed!");
+          dev.write_byte(0x90, 0x1f) ? ESP_LOGI("i2c_custom", "Set LDO ON Successfully.") : ESP_LOGE("i2c_custom", "Set LDO ON Failed!");
+          dev.write_byte(0x30, 0x3d) ? ESP_LOGI("i2c_custom", "Set TS Pin Detection Disabled Successfully.") : ESP_LOGE("i2c_custom", "Set TS Pin Detection Disabled Failed!");
+          dev.write_byte(0x62, 0x00) ? ESP_LOGI("i2c_custom", "Set Charger Constant Current Successfully.") : ESP_LOGE("i2c_custom", "Set Charger Constant Current Failed!");
+          dev.write_byte(0x64, 0x02) ? ESP_LOGI("i2c_custom", "Set Charge Target Voltage Successfully.") : ESP_LOGE("i2c_custom", "Set Charge Target Voltage Failed!");
+          dev.write_byte(0x69, 0x15) ? ESP_LOGI("i2c_custom", "Set Charging LED Mode Successfully.") : ESP_LOGE("i2c_custom", "Set Charging LED Mode Failed!");
+psram:
+  mode: octal
+  speed: 40MHz
+  
 esp32:
   board: esp32s3box
   framework:
     type: arduino
+
+logger:
+  level: DEBUG
+
+i2c:
+  - id: bus_a
+    sda: GPIO7
+    scl: GPIO6
+    scan: true
+    frequency: 100kHz
+  - id: bus_b
+    sda: GPIO5
+    scl: GPIO4
+    scan: True
+
+esp32_camera:
+  name: camera
+  external_clock:
+    pin: GPIO38
+    frequency: 20MHz
+
+  i2c_id: bus_b
+  data_pins: [GPIO14, GPIO47, GPIO48, GPIO21, GPIO13, GPIO11, GPIO10, GPIO09]
+  vsync_pin: GPIO8
+  href_pin: GPIO18
+  pixel_clock_pin: GPIO12
+  vertical_flip: false
+  horizontal_mirror: false
+  reset_pin: GPIO39
+  resolution: 1024x768
+
+esp32_camera_web_server:
+  - port: 8080
+    mode: stream
+  - port: 8081
+    mode: snapshot
+
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO17
+    name: "ttgocam2 PIR"
+    device_class: motion
+
+display:
+  - platform: ssd1306_i2c
+    i2c_id: bus_a
+    update_interval: 2s
+    model: "SSD1306 128x64"
+    address: 0x3C
+    rotation: 180
 
 # Enable Home Assistant API
 api:
@@ -46,66 +102,3 @@ wifi:
   ap:
     ssid: "Esp32-S3 Fallback Hotspot"
     password: "12345678"  # Replace with your fallback hotspot password
-
-binary_sensor:
-  - platform: gpio
-    pin: GPIO17
-    name: "ttgocam2 PIR"
-    device_class: motion
-
-sensor:
-  - platform: wifi_signal
-    name: "ttgocam2 WiFi Signal"
-    update_interval: 60s
-
-time:
-  - platform: homeassistant
-    id: homeassistant_time
-
-# font:
-#   - file: "nanum.ttf"
-#     id: tnr1
-#     size: 17
-
-web_server:
-  version: 2
-
-i2c:
-  sda: GPIO07
-  scl: GPIO06
-  frequency: 200kHz
-
-# If you encounter any problems with the new version of esphome, please check here
-# https://github.com/Xinyuan-LilyGO/T-Display-S3/issues/314
-esp32_camera:
-  name: camera-2
-  external_clock:
-    pin: GPIO38
-    frequency: 20MHz
-  i2c_pins:
-    sda: GPIO05
-    scl: GPIO04
-  data_pins: [GPIO14, GPIO47, GPIO48, GPIO21, GPIO13, GPIO11, GPIO10, GPIO09]
-  vsync_pin: GPIO8
-  href_pin: GPIO18
-  pixel_clock_pin: GPIO12
-  vertical_flip: false
-  horizontal_mirror: false
-  resolution: 1024x768
-
-esp32_camera_web_server:
-  - port: 8080
-    mode: stream
-  - port: 8081
-    mode: snapshot
-
-display:
-  - platform: ssd1306_i2c
-    update_interval: 2s
-    model: "SSD1306 128x64"
-    address: 0x3C
-    rotation: 180
-    # lambda: |-
-      # // Display current date and time
-      # it.strftime(64, 0, id(tnr1), TextAlign::TOP_CENTER, "%m-%d-%Y", id(homeassistant_time).now());
-      # it.strftime(64, 44, id(tnr1), TextAlign::BASELINE_CENTER, "%I:%M:%S%p", id(homeassistant_time).now());
